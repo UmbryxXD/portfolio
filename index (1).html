@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<title>Umbryx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --black: #050309;
+  --panel: #0e0818;
+  --line: #2a1a45;
+  --violet: #8b5cf6;
+  --lilac: #c4b5fd;
+  --text: #ece7f7;
+  --muted: #a094bd;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--text);
+  font: 400 1.05rem/1.65 "DM Sans", system-ui, sans-serif;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--lilac); outline-offset: 3px; }
+.wrap { width: min(980px, 100% - 2.5rem); margin-inline: auto; }
+h1, h2, h3 { font-family: "Syne", system-ui, sans-serif; line-height: 1.05; }
+
+/* hero */
+.hero {
+  min-height: 92vh;
+  display: grid;
+  align-content: center;
+  background:
+    radial-gradient(60% 50% at 80% 20%, rgba(139, 92, 246, .28), transparent 70%),
+    var(--black);
+}
+.hero h1 {
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  color: var(--text);
+  text-shadow: 0 0 60px rgba(139, 92, 246, .55);
+}
+.hero .wrap { display: grid; grid-template-columns: minmax(200px, 400px) 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+.hero3d { align-self: end; width: 100%; height: min(82vh, 760px); filter: drop-shadow(0 0 28px rgba(139,92,246,.22)); }
+.hero3d canvas, .stage canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.hero p { max-width: 34ch; margin-top: 1.25rem; font-size: 1.25rem; color: var(--muted); }
+.hero nav { display: flex; gap: 1.5rem; margin-top: 2.25rem; }
+.hero nav a { text-decoration: none; border-bottom: 2px solid var(--violet); padding-bottom: 2px; }
+.hero nav a:hover { color: var(--lilac); }
+
+section { padding: 5.5rem 0; }
+h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 2rem; }
+
+/* talking character */
+.talk { background: linear-gradient(180deg, var(--black), #0a0614 60%, var(--black)); }
+.scene { position: relative; min-height: 440px; padding-top: 1rem; }
+.char { position: absolute; left: 0; bottom: 70px; width: min(300px, 46%); aspect-ratio: 3 / 4; overflow: hidden; border-radius: 14px; box-shadow: 0 0 36px rgba(139,92,246,.24); }
+.stage { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; }
+.box {
+  position: absolute; left: 14%; right: 0; bottom: 0;
+  background: rgba(14, 8, 24, .94);
+  border: 1px solid var(--violet);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem 1.25rem;
+  box-shadow: 0 0 40px rgba(139, 92, 246, .25);
+}
+.name {
+  position: absolute; top: -1.05rem; left: 1.5rem;
+  background: var(--violet); color: #0a0414;
+  font: 800 .95rem "Syne", sans-serif;
+  padding: .2rem 1rem; border-radius: 6px;
+}
+#line { min-height: 4.9rem; font-size: 1.15rem; }
+.box button {
+  display: block; margin-left: auto;
+  background: transparent; color: var(--lilac);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: .45rem 1.1rem; font: inherit; cursor: pointer;
+}
+.box button:hover { border-color: var(--violet); background: rgba(139, 92, 246, .12); }
+
+/* skills */
+.chips { display: flex; flex-wrap: wrap; gap: .7rem; list-style: none; padding: 0; }
+.chips li { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: .45rem 1.1rem; }
+
+/* cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; }
+.card {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: .9rem;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.6rem; transition: border-color .2s, transform .2s;
+}
+.card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--violet), transparent); }
+.card:hover { border-color: var(--violet); transform: translateY(-4px); }
+.card h3 { font-size: 1.5rem; }
+.card p { color: var(--muted); }
+.card.small { padding: 1.3rem; gap: .5rem; }
+.card.small h3 { font-size: 1.2rem; }
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; padding: 0; margin-top: auto; }
+.tags li { font-size: .8rem; color: var(--lilac); border: 1px solid var(--line); border-radius: 6px; padding: .15rem .6rem; }
+.card a { color: var(--lilac); text-decoration: none; font-weight: 500; }
+.card a:hover { text-decoration: underline; }
+.up { margin-top: 3.5rem; }
+.up h3.sub { font-size: 1.5rem; margin-bottom: 1.2rem; }
+
+/* me */
+.me { text-align: center; }
+.ring {
+  width: 170px; height: 170px; border-radius: 50%; margin: 0 auto 1.4rem;
+  border: 3px solid var(--violet); box-shadow: 0 0 40px rgba(139, 92, 246, .45);
+  overflow: hidden; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 30%, #2b1752, #120a22);
+}
+.ring span, .ring img { grid-area: 1 / 1; }
+.ring span { font: 800 3.5rem "Syne", sans-serif; color: var(--lilac); }
+.ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.me p { color: var(--muted); max-width: 36ch; margin: .5rem auto 0; }
+
+/* contact */
+.contact p { color: var(--muted); margin-bottom: 1.5rem; max-width: 40ch; }
+.links { display: flex; flex-wrap: wrap; gap: .8rem; }
+.links a {
+  text-decoration: none; padding: .7rem 1.5rem; border-radius: 10px;
+  border: 1px solid var(--violet);
+}
+.links a:first-child { background: var(--violet); color: #0a0414; font-weight: 500; }
+.links a:hover { box-shadow: 0 0 24px rgba(139, 92, 246, .5); }
+footer { padding: 2.5rem 0; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); }
+
+@media (max-width: 640px) {
+  .scene { min-height: 520px; }
+  .hero { padding: 3rem 0 0; }
+  .hero .wrap { grid-template-columns: 1fr; }
+  .hero3d { order: 2; height: 62vh; background-position: center 18%; }
+  .char { width: 52%; bottom: 190px; }
+  .box { left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .card { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero3d" id="hero3d" role="img" aria-label="3D anime girl"></div>
+    <div class="hero-text">
+      <h1>Umbryx</h1>
+      <p>I build Discord bots and AI assistants, and I’m leveling up on the backend side of things.</p>
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="talk" id="about">
+  <div class="wrap">
+    <h2>Meet the guide</h2>
+    <div class="scene">
+      <div class="char">
+        <div class="stage" id="talk3d" role="img" aria-label="3D anime girl guide"></div>
+      </div>
+      <div class="box">
+        <div class="name">Guide</div>
+        <p id="line" aria-live="polite"></p>
+        <button id="next" type="button">Next</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What I work with</h2>
+    <ul class="chips">
+      <li>Python</li>
+      <li>Discord bots</li>
+      <li>Moderation tools</li>
+      <li>AI assistants</li>
+      <li>Backend</li>
+      <li>Databases</li>
+      <li>APIs</li>
+    </ul>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Zenvyx</h3>
+        <p>An AI-powered Discord voice assistant. It joins a voice channel, listens, and talks back, so people can chat with it like another member of the server.</p>
+        <ul class="tags"><li>Python</li><li>Discord</li><li>AI</li><li>Voice</li></ul>
+        <a href="#">View project</a>
+      </article>
+      <article class="card">
+        <h3>Jarvis</h3>
+        <p>A voice assistant for my PC, built with FastAPI and JavaScript. It listens for a wake word, answers fast, and is learning to control more of the computer.</p>
+        <ul class="tags"><li>FastAPI</li><li>JavaScript</li><li>Voice</li><li>AI</li></ul>
+        <a href="#">View project</a>
+      </article>
+      <article class="card">
+        <h3>Moderation bots</h3>
+        <p>Discord bots that keep servers tidy and safe by handling the repetitive moderation work, so the human mods can focus on the community.</p>
+        <ul class="tags"><li>Python</li><li>Discord</li><li>Moderation</li></ul>
+        <a href="#">View project</a>
+      </article>
+    </div>
+
+    <div class="up">
+      <h3 class="sub">Leveling up</h3>
+      <div class="cards">
+        <article class="card small">
+          <h3>AI models</h3>
+          <p>Understanding how models work, and how to build useful assistants on top of them.</p>
+        </article>
+        <article class="card small">
+          <h3>Discord bot craft</h3>
+          <p>Going deeper on commands, voice, permissions and moderation tooling.</p>
+        </article>
+        <article class="card small">
+          <h3>Backend, databases, APIs</h3>
+          <p>Designing APIs and data layers that stay fast and don’t fall over.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Say hi</h2>
+    <p>Got a bot idea or want to build something together? Reach out.</p>
+    <div class="links">
+      <a href="#">Discord</a>
+      <a href="#">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<section class="me" id="me">
+  <div class="wrap">
+    <div class="ring">
+      <span>U</span>
+      <!-- Add pfp.png next to index.html -->
+      <img src="pfp.png" alt="Umbryx" onerror="this.remove()" />
+    </div>
+    <h2>That’s me</h2>
+    <p>Umbryx. Builder of bots, grinder of levels.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Umbryx</div>
+</footer>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+document.getElementById('year').textContent = new Date().getFullYear();
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pointer = {x:0,y:0}; addEventListener('pointermove',e=>{pointer.x=(e.clientX/innerWidth)*2-1;pointer.y=(e.clientY/innerHeight)*2-1;});
+function makeGirl(host, hero=false){
+ const renderer=new THREE.WebGLRenderer({alpha:true,antialias:false,powerPreference:'low-power'});
+ renderer.setPixelRatio(1); renderer.setSize(300, hero?430:360, false); renderer.outputColorSpace=THREE.SRGBColorSpace;
+ renderer.domElement.style.width='100%'; renderer.domElement.style.height='100%'; renderer.domElement.style.imageRendering='pixelated'; host.appendChild(renderer.domElement);
+ const scene=new THREE.Scene();
+ const camera=new THREE.PerspectiveCamera(30,1,.1,40); camera.position.set(0,1.55,8.8); camera.lookAt(0,1.3,0);
+ scene.add(new THREE.AmbientLight(0xc4c8ff,2.0));
+ const key=new THREE.DirectionalLight(0xffe3ed,3.3); key.position.set(-3,5,6); scene.add(key);
+ const rim=new THREE.DirectionalLight(0x7862ff,4.2); rim.position.set(4,3,-3); scene.add(rim);
+ const fill=new THREE.PointLight(0xffa7c8,1.2,10); fill.position.set(-3,1,3); scene.add(fill);
+ const root=new THREE.Group(); scene.add(root);
+ const mat=(c,rough=.82)=>new THREE.MeshStandardMaterial({color:c,roughness:rough,metalness:0});
+ const skin=mat('#ffe0d9'), skinShade=mat('#e9aebd'), hair=mat('#3436a0'), hair2=mat('#5046d5'), hairLight=mat('#8a73ff'), black=mat('#171522'), blush=new THREE.MeshBasicMaterial({color:'#ff9daf',transparent:true,opacity:.7});
+ const sph=new THREE.SphereGeometry(1,12,10);
+ function ell(parent,material,pos,scale,rot=[0,0,0]){const m=new THREE.Mesh(sph,material);m.position.set(...pos);m.scale.set(...scale);m.rotation.set(...rot);parent.add(m);return m;}
+ function capsule(parent,material,a,b,r1,r2=r1,segments=8){const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),d=B.clone().sub(A);const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,d.length(),segments,1),material);mesh.position.copy(A.clone().add(B).multiplyScalar(.5));mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());parent.add(mesh);ell(parent,material,a,[r1,r1,r1]);ell(parent,material,b,[r2,r2,r2]);return mesh;}
+ // torso and shoulders, cropped as a portrait
+ ell(root,black,[0,.18,0],[.91,1.17,.48]); ell(root,black,[0,.92,0],[.78,.42,.46]);
+ ell(root,black,[0,1.13,.02],[.36,.45,.36]); // turtleneck
+ // neck and face
+ ell(root,skin,[0,1.57,.02],[.34,.48,.31]);
+ const head=new THREE.Group(); head.position.set(0,1.95,0); root.add(head);
+ ell(head,skin,[0,0,0],[.78,.91,.65]);
+ // ears
+ ell(head,skin,[-.76,-.05,0],[.13,.22,.12]); ell(head,skin,[.76,-.05,0],[.13,.22,.12]);
+ // blush and closed eyes on front plane
+ ell(head,blush,[-.43,-.18,.565],[.19,.075,.025]); ell(head,blush,[.43,-.18,.565],[.19,.075,.025]);
+ const lineMat=new THREE.MeshBasicMaterial({color:'#382047'});
+ function eyeCurve(x){const pts=[];for(let i=0;i<=12;i++){const t=i/12;pts.push(new THREE.Vector3(x-.19+t*.38,-.02+Math.sin(t*Math.PI)*.09,.625));}const curve=new THREE.CatmullRomCurve3(pts);const m=new THREE.Mesh(new THREE.TubeGeometry(curve,14,.018,4,false),lineMat);head.add(m);}
+ eyeCurve(-.4);eyeCurve(.4);
+ // little lashes
+ for(const x of [-.55,-.42,.42,.55]){const lash=new THREE.Mesh(new THREE.BoxGeometry(.018,.09,.018),lineMat);lash.position.set(x,.02,.62);lash.rotation.z=x<0?-.4:.4;head.add(lash);}
+ // smile
+ const smilePts=[];for(let i=0;i<=12;i++){const t=i/12;smilePts.push(new THREE.Vector3(-.13+t*.26,-.34+Math.sin(t*Math.PI)*.065,.62));}
+ head.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(smilePts),12,.018,5,false),new THREE.MeshBasicMaterial({color:'#a84c70'})));
+ // back hair volume and crown
+ ell(head,hair,[0,.22,-.16],[.88,1.02,.67]); ell(head,hair2,[0,.57,.01],[.82,.52,.67]);
+ // long side locks with layered chunky tapered pieces
+ for(let side of [-1,1]){
+   ell(head,hair2,[side*.72,-.16,-.01],[.23,.69,.28],[0,0,side*-.18]);
+   ell(head,hair,[side*.76,-.48,.08],[.19,.52,.23],[0,0,side*-.22]);
+   ell(head,hairLight,[side*.86,-.42,.16],[.045,.38,.04],[0,0,side*-.18]);
+ }
+ // sweeping fringe: overlapping curved clumps across forehead
+ const bangs=[[-.48,.37,.26],[-.22,.48,.30],[.04,.49,.31],[.29,.42,.29],[.52,.29,.25]];
+ bangs.forEach(([x,y,z],i)=>{ell(head,i%2?hair2:hair,[x,y,z],[.24,.52,.22],[0,0,(i-2)*-.19]);ell(head,hairLight,[x-.07,y+.03,z+.18],[.035,.30,.025],[0,0,(i-2)*-.19]);});
+ // a few visible highlight chunks
+ for(const [x,y,z,rz] of [[-.63,.53,.36,-.3],[-.38,.76,.34,-.2],[.05,.82,.32,.05],[.39,.68,.33,.25],[.62,.45,.27,.35]]) ell(head,hairLight,[x,y,z],[.045,.19,.025],[0,0,rz]);
+ // arms: one bent up to support cheek, other relaxed
+ capsule(root,skin,[-.63,-.63,.04],[-.91,.12,.18],.19,.15);
+ capsule(root,skin,[-.91,.12,.18],[-.58,.52,.38],.15,.13);
+ ell(root,skin,[-.47,.53,.42],[.22,.19,.15],[0,0,-.35]);
+ capsule(root,skin,[.65,-.56,.02],[.88,.28,.02],.17,.14);
+ // fingers as tiny rounded forms against cheek, not detailed realism
+ for(let j=0;j<3;j++) ell(root,skin,[-.51+j*.09,.58+j*.015,.54],[.075,.17,.075],[0,0,-.35]);
+ // ambient pixel-art stage glow
+ const halo=new THREE.Mesh(new THREE.PlaneGeometry(4.4,5.8),new THREE.MeshBasicMaterial({color:'#17133d',transparent:true,opacity:.24}));halo.position.set(0,1.2,-1.2);scene.add(halo);
+ function resize(){const w=host.clientWidth||1,h=host.clientHeight||1;renderer.setSize(Math.max(180,Math.round(w*.48)),Math.max(220,Math.round(h*.48)),false);camera.aspect=w/h;camera.position.set(0,1.48,hero?8.4:7.7);camera.lookAt(0,1.3,0);camera.updateProjectionMatrix();}
+ new ResizeObserver(resize).observe(host);resize();
+ let t=0; renderer.setAnimationLoop(()=>{t+=.016;if(!reduced){head.rotation.y+=(pointer.x*.24-head.rotation.y)*.045;head.rotation.x+=(-pointer.y*.10-head.rotation.x)*.045;root.position.y=Math.sin(t*1.2)*.025;}renderer.render(scene,camera);});
+}
+try { makeGirl(document.getElementById('hero3d'),true); makeGirl(document.getElementById('talk3d')); } catch(e){console.error(e);}
+const lines=["Hey, welcome in! I’m the guide around here.","This is Umbryx’s corner of the internet. Chill vibes, purple everything.","Umbryx builds Discord bots and AI assistants, and digs into backend stuff like APIs and databases.","Right now it’s all about learning Python and grinding out new projects, kind of like leveling up in Blox Fruits.","Scroll down for the projects. No math involved, promise."];
+const line=document.getElementById('line'),btn=document.getElementById('next');let i=0;line.textContent=lines[0];btn.addEventListener('click',()=>{i=(i+1)%lines.length;line.textContent=lines[i];btn.textContent=i===lines.length-1?'Replay':'Next';});
+</script>
+</body>
+</html>
